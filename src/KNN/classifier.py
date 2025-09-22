@@ -21,7 +21,7 @@ class KNNClassifier:
                 "Number of training samples does not match number of labels"
             )
 
-        self.X_train = X_train
+        self.X_train = np.asarray(X_train, dtype=np.float64)
         self.y_train = np.array(y_train)
         self.classes = np.unique(y_train)
         self.kd_tree = KDTree(X_train, self.leaf_size)
@@ -31,7 +31,7 @@ class KNNClassifier:
             raise ValueError("Model is not fitted yet")
 
         result = []
-        indices, distances = self.kd_tree.query(X_test, self.k)
+        indices, _ = self.kd_tree.query(X_test, self.k)
 
         for point_indices in indices:
             neighbour_labels = self.y_train[point_indices]
